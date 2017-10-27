@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import AbstractUser, User
 
@@ -7,7 +8,7 @@ class UsuarioPadrao(AbstractUser):
         (1, ('Empresa')),
         (2, ('Cliente')),
     )
-    tipo = models.CharField(choices=tipo_choices, default=1)
+    tipo = models.IntegerField(choices=tipo_choices, default=1)
 
 
 class PerfilProfissional(models.Model):
@@ -17,8 +18,8 @@ class PerfilProfissional(models.Model):
         (3, ("Superior Incompleto")),
         (4, ("Superior Completo"))
     )
-    pretensao_minima = models.DecimalField(decimal_places=2)
-    pretensao_maxima = models.DecimalField(decimal_places=2)
+    pretensao_minima = models.DecimalField(max_digits=10, decimal_places=2)
+    pretensao_maxima = models.DecimalField(max_digits=10, decimal_places=2)
     experiencia = models.IntegerField()
     escolaridade = models.IntegerField(choices=escolaridade_choices, default=1)
     distancia = models.IntegerField()
@@ -33,7 +34,7 @@ class Empresa(models.Model):
         )
 
 
-class Candidato(User):
+class Candidato(models.Model):
     usuario = models.OneToOneField(UsuarioPadrao)
     perfil = models.OneToOneField(PerfilProfissional, blank=True, null=True)
 
@@ -44,11 +45,11 @@ class Candidato(User):
 
 
 class Vaga(models.Model):
-    empresa = models.ForeignKey(User, on_delete=models.CASCADE)
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     perfil = models.OneToOneField(PerfilProfissional)
     nome = models.CharField(max_length=100)
 
 
 class Candidatura(models.Model):
     vaga = models.ForeignKey(Vaga, on_delete=models.CASCADE)
-    candidato = models.ForeignKey(User, on_delete=models.CASCADE)
+    candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE)
