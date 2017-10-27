@@ -1,4 +1,4 @@
-glo# Teste de Código Python/Django
+# Teste de Código Python/Django
 
 ## Enunciado:
 Criar um sistema usando Python 2.7 e Django 1.8+.
