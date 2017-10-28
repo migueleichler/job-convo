@@ -23,3 +23,18 @@ def cadastro(request):
     else:
         form = CadastroUsuarioForm()
     return render(request, 'cadastro.html', {'form': form})
+
+
+def home(request):
+    if request.user.has_perm('pode_criar_vaga'):
+        return redirect('/empresa/')
+    else:
+        return redirect('/candidato/')
+
+
+def empresa(request):
+    return render(request, 'empresa.html')
+
+
+def candidato(request):
+    return render(request, 'candidato.html')

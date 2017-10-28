@@ -15,6 +15,7 @@ class CadastroUsuarioForm(forms.ModelForm):
         model = UsuarioPadrao
         fields = ('username', 'email', 'password', 'tipo',)
         labels = {
+            'username': 'Usuário',
             'email': 'Email',
             'password': 'Senha',
             'tipo': 'Tipo de Usuário',
@@ -35,8 +36,8 @@ class CadastroUsuarioForm(forms.ModelForm):
 class LoginForm(forms.ModelForm):
     class Meta:
         model = UsuarioPadrao
-        fields = ('username', 'email', 'password',)
+        fields = ('username', 'password',)
         labels = {
-            'email': 'Email',
+            'username': 'Usuário',
             'password': 'Senha',
         }
