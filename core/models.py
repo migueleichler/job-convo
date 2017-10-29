@@ -1,17 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
 
-class UsuarioPadrao(AbstractUser):
-    tipo_choices = (
-        (1, ('Empresa')),
-        (2, ('Cliente')),
-    )
-    tipo = models.IntegerField(choices=tipo_choices, default=1)
-
-
-class PerfilProfissional(models.Model):
+class Perfil(models.Model):
     escolaridade_choices = (
         (1, ("Fundamental")),
         (2, ("Médio")),
@@ -25,31 +17,44 @@ class PerfilProfissional(models.Model):
     distancia = models.IntegerField()
 
 
-class Empresa(models.Model):
-    usuario = models.OneToOneField(UsuarioPadrao)
+# class UsuarioPadrao(AbstractUser):
+#     tipo_choices = (
+#         (1, ('Empresa')),
+#         (2, ('Cliente')),
+#     )
+#     tipo = models.IntegerField(choices=tipo_choices, default=1)
 
-    class Meta:
-        permissions = (
-            ("pode_criar_vaga", "Pode criar Vaga"),
-        )
+
+class PerfilCandidato(models.Model):
+    candidato = models.OneToOneField(User)
+    perfil = models.OneToOneField(Perfil)
 
 
-class Candidato(models.Model):
-    usuario = models.OneToOneField(UsuarioPadrao)
-    perfil = models.OneToOneField(PerfilProfissional, blank=True, null=True)
-
-    class Meta:
-        permissions = (
-            ("pode_criar_perfil", "Pode criar Perfil Profissional"),
-        )
+# class Empresa(models.Model):
+#     usuario = models.OneToOneField(UsuarioPadrao)
+#
+#     class Meta:
+#         permissions = (
+#             ("pode_criar_vaga", "Pode criar Vaga"),
+#         )
+#
+#
+# class Candidato(models.Model):
+#     usuario = models.OneToOneField(UsuarioPadrao)
+#     perfil = models.OneToOneField(PerfilProfissional, blank=True, null=True)
+#
+#     class Meta:
+#         permissions = (
+#             ("pode_criar_perfil", "Pode criar Perfil Profissional"),
+#         )
 
 
 class Vaga(models.Model):
-    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
-    perfil = models.OneToOneField(PerfilProfissional)
+    empresa = models.ForeignKey(User, on_delete=models.CASCADE)
+    perfil = models.OneToOneField(Perfil)
     nome = models.CharField(max_length=100)
 
 
 class Candidatura(models.Model):
     vaga = models.ForeignKey(Vaga, on_delete=models.CASCADE)
-    candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE)
+    candidato = models.ForeignKey(User, on_delete=models.CASCADE)

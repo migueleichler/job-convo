@@ -1,0 +1,1 @@
+[{"fields": {"name": "empresa", "permissions": []}, "model": "auth.group", "pk": 1}, {"fields": {"name": "candidato", "permissions": []}, "model": "auth.group", "pk": 2}]

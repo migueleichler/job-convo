@@ -18,6 +18,12 @@ from django.contrib.auth import views as auth_views
 
 from core import views as core_views
 
+url_home = [
+    url(r'^$', core_views.home, name='home'),
+    url(r'^vagas/$', core_views.VagaListView, name='vagas'),
+    url(r'^vaga/(?P<pk>\d+)$', core_views.cadastro, name='vaga'),
+]
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', core_views.index, name='index'),
@@ -25,11 +31,5 @@ urlpatterns = [
         {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^cadastro/', core_views.cadastro, name='cadastro'),
-    url(r'^home/', core_views.home, name='home'),
-    url(r'^empresa/', core_views.empresa, name='empresa'),
-    url(r'^candidato/', core_views.empresa, name='candidato'),
-    # url(r'^curriculos/$', core_views.CurriculoListView.as_view(), name='curriculos'),
-    # url(r'^curriculo/$', core_views.curriculo, name='curriculo'),
-    # url(r'^vagas/$', core_views.VagaListView.as_view(), name='vagas'),
-    # url(r'^vaga/(?P<pk>\d+)$', core_views.cadastro, name='vaga'),
+    url(r'^home/', include(url_home)),
 ]
