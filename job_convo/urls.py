@@ -20,8 +20,11 @@ from core import views as core_views
 
 url_home = [
     url(r'^$', core_views.home, name='home'),
-    url(r'^vagas/$', core_views.VagaListView, name='vagas'),
-    url(r'^vaga/(?P<pk>\d+)$', core_views.cadastro, name='vaga'),
+    url(r'^vagas/$', core_views.VagaListView.as_view(), name='vagas'),
+    url(r'^vaga/(?P<pk>\d+)$', core_views.VagaDetailView.as_view(), name='vaga'),
+    url(r'^new$', core_views.VagaCreate.as_view(), name='vaga_new'),
+    url(r'^edit/(?P<pk>\d+)$', core_views.VagaUpdate.as_view(), name='vaga_edit'),
+    url(r'^delete/(?P<pk>\d+)$', core_views.VagaDelete.as_view(), name='vaga_delete'),
 ]
 
 urlpatterns = [

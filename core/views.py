@@ -2,10 +2,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import permission_required, login_required
-
-# from django.template import RequestContext
+from django.views import generic
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse_lazy
 
 from .forms import CadastroUsuarioForm
+from .models import models as core_models
 
 
 def index(request):
@@ -41,11 +43,30 @@ def home(request):
     return render(request, 'home.html')
 
 
-@permission_required()
-def VagaListView(request):
-    return render(request, 'empresa.html')
+# @permission_required('can_vaga')
+class VagaListView(generic.ListView):
+    model = core_models.Vaga
+    context_object_name = 'vaga_list'
+    template_name = 'candidato.html'
 
 
-@permission_required()
-def candidato(request):
-    return render(request, 'candidato.html')
+class VagaDetailView(generic.DetailView):
+    model = core_models.Vaga
+    template_name = 'candidato.html'
+
+
+class VagaCreate(CreateView):
+    model = core_models.Vaga
+    success_url = reverse_lazy('server_list')
+    fields = ('empresa', 'nome', 'perfil',)
+
+
+class VagaUpdate(UpdateView):
+    model = core_models.Vaga
+    success_url = reverse_lazy('server_list')
+    fields = ('empresa', 'nome', 'perfil',)
+
+
+class VagaDelete(DeleteView):
+    model = core_models.Vaga
+    success_url = reverse_lazy('server_list')
