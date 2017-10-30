@@ -8,7 +8,7 @@
          <span class="icon-bar"></span>
        </button>
        {% if user.is_authenticated %}
-         <a class="navbar-brand" href="../home">Job Convo</a>
+         <a class="navbar-brand" href="/home">Job Convo</a>
        {% else %}
          <a class="navbar-brand" href="../">Job Convo</a>
        {% endif %}
@@ -17,7 +17,7 @@
        <ul class="nav navbar-nav navbar-right">
          {% if user.is_authenticated %}
             <li><a href="../home">Bem-vindo, {{ user.username }}</a></li>
-            <li><a href="../logout">Sair</a></li>
+            <li><a href="{% url 'logout' %}?next=/">Sair</a></li>
          {% else %}
             <li><a href="../cadastro">Cadastro</a></li>
             <li><a href="../login">Entrar</a></li>

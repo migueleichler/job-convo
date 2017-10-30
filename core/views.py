@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.decorators import login_required
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 
-from .forms import CadastroUsuarioForm, VagaForm
+from .forms import CadastroUsuarioForm
 from core.models import Vaga
 
 
@@ -36,7 +36,6 @@ def home(request):
     return render(request, 'home.html')
 
 
-# @permission_required('can_vaga')
 class VagaListView(generic.ListView):
     model = Vaga
     context_object_name = 'vagas'
@@ -80,11 +79,3 @@ class VagaDelete(DeleteView):
             'vagas': vagas
         })
         return JsonResponse(data)
-
-
-# class VagaDelete(SingleObjectMixin, View):
-#     def delete(self, *args, **kwargs):
-#         self.object = self.get_object()
-#         self.object.delete()
-#         payload = {'success': True}
-#         return JsonResponse(payload)

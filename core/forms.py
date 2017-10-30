@@ -9,7 +9,7 @@ from .models import Vaga
 class CadastroUsuarioForm(forms.ModelForm):
     tipo = forms.ChoiceField(choices=(
         (1, ('Empresa')),
-        (2, ('Cliente')),
+        (2, ('Candidato')),
     ))
 
     class Meta:
