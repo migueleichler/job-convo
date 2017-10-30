@@ -5,9 +5,11 @@ from django.contrib.auth.decorators import permission_required, login_required
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
-from .forms import CadastroUsuarioForm
-from .models import models as core_models
+from .forms import CadastroUsuarioForm, VagaForm
+from core.models import Vaga
 
 
 def index(request):
@@ -31,42 +33,58 @@ def cadastro(request):
 
 @login_required(login_url='/login/')
 def home(request):
-    # if request.user.has_perm('pode_criar_vaga'):
-    #     return redirect('/empresa/')
-    # else:
-    #     return redirect('/candidato/')
-
-    # if request.user.groups.filter(name='empresa').exists():
-    #     return redirect('/empresa/')
-    # else:
-    #     return redirect('/candidato/')
     return render(request, 'home.html')
 
 
 # @permission_required('can_vaga')
 class VagaListView(generic.ListView):
-    model = core_models.Vaga
-    context_object_name = 'vaga_list'
-    template_name = 'candidato.html'
+    model = Vaga
+    context_object_name = 'vagas'
+    template_name = 'vagas.html'
 
 
 class VagaDetailView(generic.DetailView):
-    model = core_models.Vaga
-    template_name = 'candidato.html'
+    model = Vaga
+    template_name = 'vaga.html'
 
 
 class VagaCreate(CreateView):
-    model = core_models.Vaga
-    success_url = reverse_lazy('server_list')
-    fields = ('empresa', 'nome', 'perfil',)
+    model = Vaga
+    success_url = reverse_lazy('home')
+    template_name = 'vaga_new.html'
+    fields = ('nome', 'pretensao_minima', 'pretensao_maxima',
+              'experiencia', 'escolaridade', 'distancia',)
+
+    def form_valid(self, form):
+        user = self.request.user
+        form.instance.empresa = user
+        return super(VagaCreate, self).form_valid(form)
 
 
 class VagaUpdate(UpdateView):
-    model = core_models.Vaga
-    success_url = reverse_lazy('server_list')
-    fields = ('empresa', 'nome', 'perfil',)
+    model = Vaga
+    success_url = reverse_lazy('home')
+    fields = ('nome', 'pretensao_minima', 'pretensao_maxima',
+              'experiencia', 'escolaridade', 'distancia',)
 
 
 class VagaDelete(DeleteView):
-    model = core_models.Vaga
-    success_url = reverse_lazy('server_list')
+    model = Vaga
+
+    def delete(self, request, *args, **kwargs):
+        data = dict()
+        self.object = super(VagaDelete, self).get_object()
+        self.object.delete()
+        vagas = Vaga.objects.all()
+        data['html_vagas'] = render_to_string('table.html', {
+            'vagas': vagas
+        })
+        return JsonResponse(data)
+
+
+# class VagaDelete(SingleObjectMixin, View):
+#     def delete(self, *args, **kwargs):
+#         self.object = self.get_object()
+#         self.object.delete()
+#         payload = {'success': True}
+#         return JsonResponse(payload)

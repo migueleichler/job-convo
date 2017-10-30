@@ -3,6 +3,8 @@ from django import forms
 from django.contrib.auth.models import Group, User
 # from django.core.exceptions import ValidationError
 
+from .models import Vaga
+
 
 class CadastroUsuarioForm(forms.ModelForm):
     tipo = forms.ChoiceField(choices=(
@@ -45,3 +47,9 @@ class LoginForm(forms.ModelForm):
             'username': 'Usuário',
             'password': 'Senha',
         }
+
+
+class VagaForm(forms.ModelForm):
+    class Meta:
+        model = Vaga
+        fields = '__all__'

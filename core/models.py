@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 
 class Perfil(models.Model):
@@ -10,51 +11,36 @@ class Perfil(models.Model):
         (3, ("Superior Incompleto")),
         (4, ("Superior Completo"))
     )
-    pretensao_minima = models.DecimalField(max_digits=10, decimal_places=2)
-    pretensao_maxima = models.DecimalField(max_digits=10, decimal_places=2)
-    experiencia = models.IntegerField()
+    pretensao_minima = models.DecimalField(max_digits=10, decimal_places=2,
+                                           default=1000.00)
+    pretensao_maxima = models.DecimalField(max_digits=10, decimal_places=2,
+                                           default=1000.00)
+    experiencia = models.IntegerField(default=1)
     escolaridade = models.IntegerField(choices=escolaridade_choices, default=1)
-    distancia = models.IntegerField()
+    distancia = models.IntegerField(default=10)
+
+    class Meta:
+        abstract = True
 
 
-# class UsuarioPadrao(AbstractUser):
-#     tipo_choices = (
-#         (1, ('Empresa')),
-#         (2, ('Cliente')),
-#     )
-#     tipo = models.IntegerField(choices=tipo_choices, default=1)
-
-
-class PerfilCandidato(models.Model):
+class PerfiCandidato(Perfil):
     candidato = models.OneToOneField(User)
-    perfil = models.OneToOneField(Perfil)
 
 
-# class Empresa(models.Model):
-#     usuario = models.OneToOneField(UsuarioPadrao)
-#
-#     class Meta:
-#         permissions = (
-#             ("pode_criar_vaga", "Pode criar Vaga"),
-#         )
-#
-#
-# class Candidato(models.Model):
-#     usuario = models.OneToOneField(UsuarioPadrao)
-#     perfil = models.OneToOneField(PerfilProfissional, blank=True, null=True)
-#
-#     class Meta:
-#         permissions = (
-#             ("pode_criar_perfil", "Pode criar Perfil Profissional"),
-#         )
-
-
-class Vaga(models.Model):
+class Vaga(Perfil):
     empresa = models.ForeignKey(User, on_delete=models.CASCADE)
-    perfil = models.OneToOneField(Perfil)
     nome = models.CharField(max_length=100)
+
+    class Meta:
+        abstract = False
+
+    def get_absolute_url(self):
+        return reverse('vaga', args=[str(self.id)])
+
+    def get_delete_url(self):
+        return reverse('vaga_delete', args=[str(self.id)])
 
 
 class Candidatura(models.Model):
-    vaga = models.ForeignKey(Vaga, on_delete=models.CASCADE)
+    vaga = models.ForeignKey(Vaga, on_delete=models.CASCADE, default=1)
     candidato = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <title>Candidato</title>
+
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+      {% load static %}
+      <script src="{% static 'js/main.js' %}"></script>
+   </head>
+
+   <body>
+     {% include 'nav.html' with user=user %}
+
+     <table id="table-vagas" class="table">
+       <thead>
+         <tr>
+           <th>Empresa</th>
+           <th>Nome</th>
+           <th>Pretensão Mínima</th>
+           <th>Pretensão Máxima</th>
+           <th>Experiência</th>
+           <th>Escolaridade</th>
+           <th>Distância</th>
+           <th></th>
+           <th></th>
+         </tr>
+       </thead>
+       <tbody>
+         {% include 'table.html' with vagas=vagas%}
+       </tbody>
+
+     </table>
+   </body>
+</html>

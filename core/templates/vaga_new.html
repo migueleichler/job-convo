@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <title>Home</title>
+
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+   </head>
+
+   <body>
+     {% include 'nav.html' with user=user %}
+
+     {% load bootstrap3 %}
+
+     <div class="form">
+       {% autoescape off %}
+       <form method="POST">
+         {% endautoescape %}
+         {% csrf_token %}
+         {% for field in vaga_form.visible_fields %}
+           <div class="form-group">
+              {% bootstrap_field field %}
+              {% for error in field.errors %}
+                <span class="help-block">{{ error }}</span>
+              {% endfor %}
+           </div>
+         {% endfor %}
+         {{form.as_p}}
+         <input type="submit" class="save btn btn-default" value="Criar Vaga"/>
+       </form>
+     </div>
+   </body>
+</html>
