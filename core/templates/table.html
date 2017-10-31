@@ -7,8 +7,7 @@
     <td>{{ vaga.experiencia }}</td>
     <td>{{ vaga.escolaridade }}</td>
     <td>{{ vaga.distancia }}</td>
-    <td><a class="btn btn-primary" data-toggle="collapse" href="{{ vaga.get_absolute_url }}" aria-expanded="false" aria-controls="multiCollapseExample1">Editar</a></td>
-
+    <td><a class="btn btn-primary" href="{{ vaga.get_absolute_url }}">Editar</a></td>
     <td><a class="btn btn-danger btn-delete-vaga" data-url="{% url 'vaga_delete' vaga.id %}"> Deletar</a></td>
   </tr>
 {% endfor %}
