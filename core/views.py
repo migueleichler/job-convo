@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse
 
 from .forms import CadastroUsuarioForm
-from core.models import Vaga
+from core.models import Vaga, PerfilCandidato
 
 
 def index(request):
@@ -89,3 +89,11 @@ class VagaDelete(DeleteView):
             'vagas': vagas
         })
         return JsonResponse(data)
+
+
+class PerfilCandidatoCreate(CreateView):
+    model = PerfilCandidato
+    success_url = reverse_lazy('home')
+    template_name = 'perfil_candidato_new.html'
+    fields = ('pretensao_minima', 'pretensao_maxima',
+              'experiencia', 'escolaridade', 'distancia',)

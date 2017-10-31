@@ -23,7 +23,7 @@ class Perfil(models.Model):
         abstract = True
 
 
-class PerfiCandidato(Perfil):
+class PerfilCandidato(Perfil):
     candidato = models.OneToOneField(User)
 
 

@@ -31,6 +31,8 @@ url_home = [
         name='vaga_edit'),
     url(r'^delete/(?P<pk>\d+)$', core_views.VagaDelete.as_view(),
         name='vaga_delete'),
+    url(r'^perfil/new/$', core_views.PerfilCandidatoCreate.as_view(),
+        name='perfil_new'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
 ]
 
