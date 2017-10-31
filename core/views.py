@@ -99,7 +99,7 @@ class VagaDelete(DeleteView):
         self.object = super(VagaDelete, self).get_object()
         self.object.delete()
         vagas = Vaga.objects.all()
-        data['html_vagas'] = render_to_string('table.html', {
+        data['html_vagas'] = render_to_string('table-vagas.html', {
             'vagas': vagas
         })
         return JsonResponse(data)
