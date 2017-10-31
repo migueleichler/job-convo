@@ -66,6 +66,16 @@ class VagaUpdate(UpdateView):
     fields = ('nome', 'pretensao_minima', 'pretensao_maxima',
               'experiencia', 'escolaridade', 'distancia',)
 
+    def update(self, request, *args, **kwargs):
+        data = dict()
+        self.object = super(VagaUpdate, self).get_object()
+        self.object.update()
+        vagas = Vaga.objects.all()
+        data['html_vagas'] = render_to_string('table.html', {
+            'vagas': vagas
+        })
+        return JsonResponse(data)
+
 
 class VagaDelete(DeleteView):
     model = Vaga
