@@ -4,9 +4,9 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, resolve, reverse
 from django.template.loader import render_to_string
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 
 from .forms import CadastroUsuarioForm
 from core.models import Vaga, PerfilCandidato
@@ -25,7 +25,7 @@ def cadastro(request):
             raw_password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('/home/')
+            return redirect(resolve(request.path_info).url_name)
     else:
         form = CadastroUsuarioForm()
     return render(request, 'cadastro.html', {'form': form})
@@ -33,7 +33,21 @@ def cadastro(request):
 
 @login_required(login_url='/login/')
 def home(request):
-    return render(request, 'home.html')
+    group = request.user.groups.filter(user=request.user)[0]
+    if group.name == "empresa":
+        return HttpResponseRedirect(reverse('empresa'))
+    elif group.name == "candidato":
+        return HttpResponseRedirect(reverse('candidato'))
+
+    return render(request)
+
+
+def candidato(request):
+    return render(request, "home.html")
+
+
+def empresa(request):
+    return render(request, "home.html")
 
 
 class VagaListView(generic.ListView):

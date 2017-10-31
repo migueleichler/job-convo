@@ -103,6 +103,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# AUTH_USER_MODEL = 'core.UsuarioPadrao'
-
 LOGIN_REDIRECT_URL = '/home/'
