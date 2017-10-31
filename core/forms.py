@@ -21,9 +21,6 @@ class CadastroUsuarioForm(forms.ModelForm):
             'password': 'Senha',
             'tipo': 'Tipo de Usuário',
         }
-        help_texts = {
-            'username': '30 caracteres ou menos. Aceita apenas Letras, Dígitos e @/./+/-/_.',
-        }
 
     def clean_password(self):
         password = self.cleaned_data.get("password")
