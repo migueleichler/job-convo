@@ -97,3 +97,8 @@ class PerfilCandidatoCreate(CreateView):
     template_name = 'perfil_candidato_new.html'
     fields = ('pretensao_minima', 'pretensao_maxima',
               'experiencia', 'escolaridade', 'distancia',)
+
+    def form_valid(self, form):
+        user = self.request.user
+        form.instance.candidato = user
+        return super(PerfilCandidatoCreate, self).form_valid(form)
