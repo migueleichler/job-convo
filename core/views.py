@@ -55,6 +55,13 @@ class VagaListView(generic.ListView):
     context_object_name = 'vagas'
     template_name = 'vagas.html'
 
+    def get_queryset(self):
+        queryset = Vaga.objects.all()
+        if self.request.user.has_perm('core.add_vaga'):
+            queryset = queryset.filter(empresa=self.request.user)
+
+        return queryset
+
 
 class VagaDetailView(generic.DetailView):
     model = Vaga

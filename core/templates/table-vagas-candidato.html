@@ -1,0 +1,12 @@
+{% for vaga in vagas %}
+  <tr>
+    <td>{{ vaga.empresa.username }}</td>
+    <td>{{ vaga.nome }}</td>
+    <td>R$ {{ vaga.pretensao_minima }}</td>
+    <td>R$ {{ vaga.pretensao_maxima }}</td>
+    <td>{{ vaga.experiencia }}</td>
+    <td>{{ vaga.escolaridade }}</td>
+    <td>{{ vaga.distancia }}</td>
+    <td><a class="btn btn-success btn-new-candidatura" data-url="{% url 'candidatura_new' vaga.id %}"> Confirmar Candidatura</a></td>
+  </tr>
+{% endfor %}
