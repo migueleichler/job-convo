@@ -37,6 +37,23 @@ $(function() {
         }
      });
    };
-   
+
+   var createCandidatura = function () {
+       var btn = $(this);
+       $.ajax({
+         type: "GET",
+         url: btn.attr("data-url"),
+         beforeSend: function(xhr, settings) {
+           if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+             xhr.setRequestHeader("X-CSRFToken", csrftoken);
+           }
+         },
+         success: function(data) {
+           $("#response").text(data.response);
+         }
+      });
+    };
+
    $("#table-vagas").on("click", ".btn-delete-vaga", deleteVaga);
+   $("#table-vagas").on("click", ".btn-new-candidatura", createCandidatura);
 })

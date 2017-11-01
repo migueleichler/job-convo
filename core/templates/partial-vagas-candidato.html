@@ -7,6 +7,7 @@
     <td>{{ vaga.experiencia }}</td>
     <td>{{ vaga.escolaridade }}</td>
     <td>{{ vaga.distancia }}</td>
-    <td><a class="btn btn-success btn-new-candidatura" data-url="{% url 'candidatura_new' vaga.id %}"> Confirmar Candidatura</a></td>
+    <td><a class="btn btn-success btn-new-candidatura" data-url="{% url 'candidatura_vaga' vaga.id %}"> Confirmar Candidatura</a></td>
+    <td><p id='response'></p></td>
   </tr>
 {% endfor %}

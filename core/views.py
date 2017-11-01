@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse, HttpResponseRedirect
 
 from .forms import CadastroUsuarioForm
-from core.models import Vaga, PerfilCandidato
+from core.models import Vaga, PerfilCandidato, Candidatura
 
 
 def index(request):
@@ -105,8 +105,8 @@ class VagaDelete(DeleteView):
         data = dict()
         self.object = super(VagaDelete, self).get_object()
         self.object.delete()
-        vagas = Vaga.objects.all()
-        data['html_vagas'] = render_to_string('table-vagas.html', {
+        vagas = Vaga.objects.filter(empresa=self.request.user)
+        data['html_vagas'] = render_to_string('partial-vagas-empresa.html', {
             'vagas': vagas
         })
         return JsonResponse(data)
@@ -123,3 +123,26 @@ class PerfilCandidatoCreate(CreateView):
         user = self.request.user
         form.instance.candidato = user
         return super(PerfilCandidatoCreate, self).form_valid(form)
+
+
+def CandidaturaVagaCreate(request, id):
+    data = dict()
+    if request.method == 'GET':
+        candidato_id = request.user.id
+        Candidatura.objects.create(candidato_id=candidato_id,
+                                   vaga_id=id)
+        data['response'] = 'Candidatura Confirmada.'
+    return JsonResponse(data)
+
+
+class CandidaturaListView(generic.ListView):
+    model = Vaga
+    context_object_name = 'vagas'
+    template_name = 'candidaturas.html'
+
+    def get_queryset(self):
+        user = self.request.user
+        vagas = Candidatura.objects.filter(candidato=user).values('vaga')
+        queryset = Vaga.objects.filter(id__in=vagas)
+
+        return queryset

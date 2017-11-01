@@ -24,16 +24,20 @@
            <th>Experiência</th>
            <th>Escolaridade</th>
            <th>Distância</th>
-           <th></th>
-           <th></th>
          </tr>
        </thead>
        <tbody>
-         {% if perms.core.add_vaga %}
-           {% include 'partial-vagas-empresa.html' with vagas=vagas%}
-         {% else %}
-           {% include 'partial-vagas-candidato.html' with vagas=vagas%}
-         {% endif %}
+         {% for vaga in vagas %}
+           <tr>
+             <td>{{ vaga.empresa.username }}</td>
+             <td>{{ vaga.nome }}</td>
+             <td>R$ {{ vaga.pretensao_minima }}</td>
+             <td>R$ {{ vaga.pretensao_maxima }}</td>
+             <td>{{ vaga.experiencia }}</td>
+             <td>{{ vaga.escolaridade }}</td>
+             <td>{{ vaga.distancia }}</td>
+           </tr>
+         {% endfor %}
        </tbody>
      </table>
    </body>

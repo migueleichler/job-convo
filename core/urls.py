@@ -24,7 +24,11 @@ url_candidato = [
     url(r'^$', core_views.candidato, name='candidato'),
     url(r'^perfil/new/$', core_views.PerfilCandidatoCreate.as_view(),
         name='perfil_new'),
-    url(r'^candidatura/$', core_views.VagaListView.as_view(),
+    url(r'^vagas/$', core_views.VagaListView.as_view(),
         name='vagas'),
+    url(r'^candidaturas/$', core_views.CandidaturaListView.as_view(),
+        name='candidaturas'),
+    url(r'^candidatura/vaga/(?P<id>\d+)$', core_views.CandidaturaVagaCreate,
+        name='candidatura_vaga'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
 ]

@@ -33,9 +33,6 @@ class Vaga(Perfil):
     empresa = models.ForeignKey(User, on_delete=models.CASCADE)
     nome = models.CharField("Nome da Vaga", max_length=100)
 
-    class Meta:
-        abstract = False
-
     def get_absolute_url(self):
         return reverse('vaga', args=[str(self.id)])
 
@@ -46,3 +43,6 @@ class Vaga(Perfil):
 class Candidatura(models.Model):
     vaga = models.ForeignKey(Vaga, on_delete=models.CASCADE, default=1)
     candidato = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse('candidatura', args=[str(self.id)])
