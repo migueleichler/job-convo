@@ -2,11 +2,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.views import generic
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.core.urlresolvers import reverse_lazy, resolve, reverse
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.template.loader import render_to_string
 from django.http import JsonResponse, HttpResponseRedirect
+from django.contrib.auth.decorators import permission_required
 
 from .forms import CadastroUsuarioForm
 from core.models import Vaga, PerfilCandidato, Candidatura
@@ -50,7 +51,18 @@ def empresa(request):
     return render(request, "home.html")
 
 
-class VagaListView(generic.ListView):
+@permission_required('core.add_candidatura')
+def CandidaturaVagaCreate(request, id):
+    data = dict()
+    if request.method == 'GET':
+        candidato_id = request.user.id
+        Candidatura.objects.create(candidato_id=candidato_id,
+                                   vaga_id=id)
+        data['response'] = 'Candidatura Confirmada.'
+    return JsonResponse(data)
+
+
+class VagaList(ListView):
     model = Vaga
     context_object_name = 'vagas'
     template_name = 'vagas.html'
@@ -63,7 +75,7 @@ class VagaListView(generic.ListView):
         return queryset
 
 
-class VagaDetailView(generic.DetailView):
+class VagaDetail(DetailView):
     model = Vaga
     template_name = 'vaga.html'
 
@@ -125,17 +137,7 @@ class PerfilCandidatoCreate(CreateView):
         return super(PerfilCandidatoCreate, self).form_valid(form)
 
 
-def CandidaturaVagaCreate(request, id):
-    data = dict()
-    if request.method == 'GET':
-        candidato_id = request.user.id
-        Candidatura.objects.create(candidato_id=candidato_id,
-                                   vaga_id=id)
-        data['response'] = 'Candidatura Confirmada.'
-    return JsonResponse(data)
-
-
-class CandidaturaListView(generic.ListView):
+class CandidaturaList(ListView):
     model = Vaga
     context_object_name = 'vagas'
     template_name = 'candidaturas.html'
