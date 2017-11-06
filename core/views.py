@@ -22,10 +22,10 @@ def cadastro(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password')
+            raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect(resolve(request.path_info).url_name)
+            return redirect('home')
     else:
         form = CadastroUsuarioForm()
     return render(request, 'cadastro.html', {'form': form})
