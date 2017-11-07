@@ -19,6 +19,7 @@
             <p><strong>Empresa:</strong> {{ vaga.empresa.username }}</p>
             <p><strong>Pretensão Mínima:</strong> {{ vaga.pretensao_minima }}</p>
             <p><strong>Pretensão Máxima:</strong> {{ vaga.pretensao_maxima }}</p>
+            <p><strong>Escolaridade:</strong> {{ vaga.get_escolaridde_display }}</p>
             <p><strong>Experiência:</strong> {{ vaga.experiencia }}</p>
             <p><strong>Distância:</strong> {{ vaga.distancia }}</p>
             <p><strong>N° de Candidatos no Perfil da Vaga: </strong>{{candidatos_perfil}}</p>
@@ -46,7 +47,7 @@
                     <td>{{candidato.candidato.username}}</td>
                     <td>{{candidato.pretensao}}</td>
                     <td>{{candidato.experiencia}}</td>
-                    <td>{{candidato.escolaridade}}</td>
+                    <td>{{candidato.get_escolaridade_display}}</td>
                     <td>{{candidato.distancia}}</td>
                   </tbody>
                 {% endfor %}
@@ -55,6 +56,6 @@
           </table>
         </div>
       </div>
-    </div>
+     </div>
    </body>
 </html>

@@ -5,7 +5,7 @@
     <td>R$ {{ vaga.pretensao_minima }}</td>
     <td>R$ {{ vaga.pretensao_maxima }}</td>
     <td>{{ vaga.experiencia }}</td>
-    <td>{{ vaga.escolaridade }}</td>
+    <td>{{ vaga.get_escolaridade_display }}</td>
     <td>{{ vaga.distancia }}</td>
     <td><a class="btn btn-success btn-new-candidatura" data-url="{% url 'candidatura_vaga' vaga.id %}"> Confirmar Candidatura</a></td>
     <td><p id='response'></p></td>

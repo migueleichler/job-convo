@@ -34,7 +34,7 @@
              <td>R$ {{ vaga.pretensao_minima }}</td>
              <td>R$ {{ vaga.pretensao_maxima }}</td>
              <td>{{ vaga.experiencia }}</td>
-             <td>{{ vaga.escolaridade }}</td>
+             <td>{{ vaga.get_escolaridade_display }}</td>
              <td>{{ vaga.distancia }}</td>
            </tr>
          {% endfor %}

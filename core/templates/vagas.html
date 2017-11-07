@@ -14,6 +14,7 @@
    <body>
      {% include 'nav.html' with user=user %}
 
+     {% block content %}
      <table id="table-vagas" class="table">
        <thead>
          <tr>
@@ -37,5 +38,6 @@
          {% endif %}
        </tbody>
      </table>
+     {% endblock %}
    </body>
 </html>
