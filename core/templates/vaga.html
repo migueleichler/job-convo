@@ -2,7 +2,7 @@
 <html>
    <head>
       <meta charset="UTF-8">
-      <title>Empresa</title>
+      <title>Vaga</title>
 
       <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
    </head>
@@ -10,12 +10,53 @@
    <body>
     {% include 'nav.html' with user=user %}
 
-     <h1>Titúlo Vaga: {{ vaga.nome }}</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-4 col-md-4">
 
-     <p><strong>Empresa:</strong> <a href="">{{ vaga.empresa.username }}</a></p>
-     <p><strong>Pretensão Mínima:</strong> {{ vaga.pretensao_minima }}</p>
-     <p><strong>Pretensão Máxima:</strong> {{ vaga.pretensao_maxima }}</p>
-     <p><strong>Experiência:</strong> {{ vaga.experiencia }}</p>
-     <p><strong>Distância:</strong> {{ vaga.distancia }}</p>
+            <h1>Titúlo Vaga: {{ vaga.nome }}</h1>
+            </br>
+            <p><strong>Empresa:</strong> {{ vaga.empresa.username }}</p>
+            <p><strong>Pretensão Mínima:</strong> {{ vaga.pretensao_minima }}</p>
+            <p><strong>Pretensão Máxima:</strong> {{ vaga.pretensao_maxima }}</p>
+            <p><strong>Experiência:</strong> {{ vaga.experiencia }}</p>
+            <p><strong>Distância:</strong> {{ vaga.distancia }}</p>
+            <p><strong>N° de Candidatos no Perfil da Vaga: </strong>{{candidatos_perfil}}</p>
+            <p><strong>N° de Candidatos fora do Perfil da Vaga: </strong>{{candidatos_fora_perfil}}</p>
+        </div>
+      </div>
+      </br></br></br>
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+          <table class="table">
+            {% if perms.core.add_vaga %}
+              {% if candidatos %}
+                <p>Lista de Candidatos no Perfil da Vaga</p>
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th>Pretensão Mínima</th>
+                    <th>Pretensão Máxima</th>
+                    <th>Experiência</th>
+                    <th>Escolaridade</th>
+                    <th>Distância</th>
+                  </tr>
+                </thead>
+                {% for candidato in candidatos %}
+                  <tbody>
+                    <td>{{candidato.candidato.username}}</td>
+                    <td>{{candidato.pretensao_minima}}</td>
+                    <td>{{candidato.pretensao_maxima}}</td>
+                    <td>{{candidato.experiencia}}</td>
+                    <td>{{candidato.escolaridade}}</td>
+                    <td>{{candidato.distancia}}</td>
+                  </tbody>
+                {% endfor %}
+              {% endif %}
+            {% endif %}
+          </table>
+        </div>
+      </div>
+    </div>
    </body>
 </html>

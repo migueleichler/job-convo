@@ -11,10 +11,6 @@ class Perfil(models.Model):
         (3, ("Superior Incompleto")),
         (4, ("Superior Completo"))
     )
-    pretensao_minima = models.DecimalField("Pretensão Mínima", max_digits=10,
-                                           decimal_places=2, default=1000.00)
-    pretensao_maxima = models.DecimalField("Pretensão Máxima", max_digits=10,
-                                           decimal_places=2, default=1000.00)
     experiencia = models.IntegerField("Experiência", default=1)
     escolaridade = models.IntegerField("Escolaridade",
                                        choices=escolaridade_choices,
@@ -27,11 +23,17 @@ class Perfil(models.Model):
 
 class PerfilCandidato(Perfil):
     candidato = models.OneToOneField(User)
+    pretensao = models.DecimalField("Pretensão Salarial", max_digits=10,
+                                    decimal_places=2, default=1000.00)
 
 
 class Vaga(Perfil):
     empresa = models.ForeignKey(User, on_delete=models.CASCADE)
     nome = models.CharField("Nome da Vaga", max_length=100)
+    pretensao_minima = models.DecimalField("Pretensão Mínima", max_digits=10,
+                                           decimal_places=2, default=1000.00)
+    pretensao_maxima = models.DecimalField("Pretensão Máxima", max_digits=10,
+                                           decimal_places=2, default=1000.00)
 
     def get_absolute_url(self):
         return reverse('vaga', args=[str(self.id)])

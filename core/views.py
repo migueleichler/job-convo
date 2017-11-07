@@ -79,6 +79,24 @@ class VagaDetail(DetailView):
     model = Vaga
     template_name = 'vaga.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(VagaDetail, self).get_context_data(**kwargs)
+        vaga = self.object
+        candidatos = PerfilCandidato.objects.filter(
+                        pretensao__gte=vaga.pretensao_minima
+                        pretensao__lte=vaga.pretensao_maxima
+                     )
+        context['candidatos'] = candidatos.filter(
+                                  experiencia=vaga.experiencia,
+                                  escolaridade=vaga.escolaridade,
+                                  distancia=vaga.distancia
+                                )
+        perfil = len(context['candidatos'])
+        total = PerfilCandidato.objects.all().count()
+        context['candidatos_perfil'] = len(context['candidatos'])
+        context['candidatos_fora_perfil'] = total - perfil
+        return context
+
 
 class VagaCreate(CreateView):
     model = Vaga
