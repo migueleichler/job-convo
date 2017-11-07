@@ -35,8 +35,7 @@
                 <thead>
                   <tr>
                     <th>Nome</th>
-                    <th>Pretensão Mínima</th>
-                    <th>Pretensão Máxima</th>
+                    <th>Pretensão Salarial</th>
                     <th>Experiência</th>
                     <th>Escolaridade</th>
                     <th>Distância</th>
@@ -45,8 +44,7 @@
                 {% for candidato in candidatos %}
                   <tbody>
                     <td>{{candidato.candidato.username}}</td>
-                    <td>{{candidato.pretensao_minima}}</td>
-                    <td>{{candidato.pretensao_maxima}}</td>
+                    <td>{{candidato.pretensao}}</td>
                     <td>{{candidato.experiencia}}</td>
                     <td>{{candidato.escolaridade}}</td>
                     <td>{{candidato.distancia}}</td>

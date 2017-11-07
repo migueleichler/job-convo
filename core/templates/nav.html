@@ -16,7 +16,7 @@
      <div id="navbar" class="navbar-collapse collapse">
        <ul class="nav navbar-nav navbar-right">
          {% if user.is_authenticated %}
-            <li><a href="../home">Bem-vindo, {{ user.username }}</a></li>
+            <li><a href="/home">Bem-vindo, {{ user.username }}</a></li>
             <li><a href="{% url 'logout' %}?next=/">Sair</a></li>
          {% else %}
             <li><a href="../cadastro">Cadastro</a></li>

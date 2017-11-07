@@ -56,9 +56,14 @@ def CandidaturaVagaCreate(request, id):
     data = dict()
     if request.method == 'GET':
         candidato_id = request.user.id
-        Candidatura.objects.create(candidato_id=candidato_id,
-                                   vaga_id=id)
-        data['response'] = 'Candidatura Confirmada.'
+        candidatura, created = Candidatura.objects.get_or_create(
+                                   candidato_id=candidato_id,
+                                   vaga_id=id
+                               )
+        if created:
+            data['response'] = 'Candidatura Confirmada.'
+        else:
+            data['response'] = 'Candidatura já realizada.'
     return JsonResponse(data)
 
 
@@ -83,7 +88,7 @@ class VagaDetail(DetailView):
         context = super(VagaDetail, self).get_context_data(**kwargs)
         vaga = self.object
         candidatos = PerfilCandidato.objects.filter(
-                        pretensao__gte=vaga.pretensao_minima
+                        pretensao__gte=vaga.pretensao_minima,
                         pretensao__lte=vaga.pretensao_maxima
                      )
         context['candidatos'] = candidatos.filter(
@@ -146,8 +151,8 @@ class PerfilCandidatoCreate(CreateView):
     model = PerfilCandidato
     success_url = reverse_lazy('home')
     template_name = 'perfil_candidato_new.html'
-    fields = ('pretensao_minima', 'pretensao_maxima',
-              'experiencia', 'escolaridade', 'distancia',)
+    fields = ('pretensao', 'experiencia',
+              'escolaridade', 'distancia',)
 
     def form_valid(self, form):
         user = self.request.user
