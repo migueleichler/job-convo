@@ -118,14 +118,10 @@ class VagaCreate(CreateView):
 
 class VagaUpdate(UpdateView):
     model = Vaga
-    template_name = 'vaga-update.html'
+    success_url = reverse_lazy('home')
+    template_name = 'vaga_update.html'
     fields = ('nome', 'pretensao_minima', 'pretensao_maxima',
               'experiencia', 'escolaridade', 'distancia',)
-
-    def form_valid(self, form):
-        user = self.request.user
-        form.instance.empresa = user
-        return super(VagaUpdate, self).form_valid(form)
 
 
 class VagaDelete(DeleteView):
