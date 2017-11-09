@@ -9,14 +9,18 @@
 
    <body>
     {% include 'nav.html' with user=user %}
-
-    {% if perms.core.add_vaga %}
-      <li><a href="/empresa/vagas/">Histórico de vagas.</a></li>
-      <li><a href="/empresa/vaga/new/">Criar nova vaga.</a></li>
-    {% else %}
-      <li><a href="../candidato/perfil/new/">Cadastrar Perfil Profissional.</a></li>
-      <li><a href="../candidato/vagas/">Candidatar a nova vaga.</a></li>
-      <li><a href="../candidato/candidaturas/">Histórico de candidaturas.</a></li>
-    {% endif %}
+    <div class="col-md-offset-4 col-md-4">
+      <h3>Menu</h3>
+      <ul class="list-group">
+      {% if perms.core.add_vaga %}
+        <li class="list-group-item"><a href="/empresa/vagas/">Histórico de vagas.</a></li>
+        <li class="list-group-item"><a href="/empresa/vaga/new/">Criar nova vaga.</a></li>
+      {% else %}
+        <li class="list-group-item"><a href="../candidato/perfil/new/">Cadastrar Perfil Profissional.</a></li>
+        <li class="list-group-item"><a href="../candidato/vagas/">Candidatar a nova vaga.</a></li>
+        <li class="list-group-item"><a href="../candidato/candidaturas/">Histórico de candidaturas.</a></li>
+      {% endif %}
+      </ul>
+    </div>
    </body>
 </html>
